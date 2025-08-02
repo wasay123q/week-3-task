@@ -12,6 +12,10 @@ A beautiful and functional task management application built with Flutter and Fi
 - 🎨 **Custom Theme** - Purple-based color scheme with Google Fonts
 - 📅 **Date Tracking** - Automatic creation and completion date tracking
 - 🗑️ **Swipe to Delete** - Intuitive swipe gestures for task deletion
+- 🚨 **Priority System** - Mark tasks as high priority with red indicators
+- 🔍 **Smart Filtering** - Filter tasks by status and priority
+- 🎯 **Visual Priority Indicators** - Red dots for high priority tasks
+- 📊 **Task Statistics** - Easy filtering for different task states
 
 ## Screenshots
 
@@ -79,14 +83,16 @@ lib/
 ├── main.dart                 # App entry point and theme configuration
 ├── firebase_options.dart     # Firebase configuration
 ├── models/
-│   └── task.dart            # Task data model
+│   ├── task.dart            # Task data model
+│   └── task_filter.dart     # Task filter enum
 ├── services/
 │   └── firebase_service.dart # Firebase CRUD operations
 ├── screens/
 │   └── home_screen.dart     # Main task list screen
 └── widgets/
     ├── task_card.dart       # Individual task display widget
-    └── add_task_dialog.dart # Add/edit task dialog
+    ├── add_task_dialog.dart # Add/edit task dialog
+    └── filter_dropdown.dart # Filter dropdown widget
 ```
 
 ## Usage
@@ -108,6 +114,19 @@ lib/
 ### Deleting Tasks
 1. Swipe left on any task card
 2. Tap the red delete button that appears
+
+### Setting Task Priority
+1. When creating or editing a task, check the "High Priority" checkbox
+2. High priority tasks will display a red dot indicator
+3. Use the filter dropdown to view only high priority tasks
+
+### Filtering Tasks
+1. Use the filter dropdown at the top of the screen
+2. Choose from:
+   - **All Tasks**: Shows all tasks
+   - **Completed Tasks**: Shows only completed tasks
+   - **Uncompleted Tasks**: Shows only pending tasks
+   - **High Priority Tasks**: Shows only high priority tasks
 
 ## Customization
 
@@ -136,20 +155,26 @@ The app includes comprehensive error handling and loading states. Test the follo
 - ✅ Editing existing tasks
 - ✅ Marking tasks as complete/incomplete
 - ✅ Deleting tasks via swipe gesture
+- ✅ Setting and managing task priorities
+- ✅ Filtering tasks by different criteria
 - ✅ Network connectivity issues
 - ✅ Empty state when no tasks exist
+- ✅ Filter state when no tasks match criteria
 
 ## Future Enhancements
 
 - [ ] User authentication
 - [ ] Task categories/tags
 - [ ] Due dates and reminders
-- [ ] Task priority levels
 - [ ] Dark mode support
 - [ ] Offline support
 - [ ] Task search functionality
 - [ ] Task sharing
 - [ ] Data export/import
+- [ ] Task statistics and analytics
+- [ ] Multiple priority levels
+- [ ] Task templates
+- [ ] Bulk operations
 
 ## Contributing
 
@@ -172,10 +197,6 @@ If you encounter any issues or have questions:
 3. Verify your Flutter version is compatible
 4. Check the debug console for error messages
 
-## Video Demo
 
-*A short video demonstrating the app functionality will be recorded and uploaded to the repository.*
-
----
 
 **Note**: This app is designed for educational purposes and demonstrates modern Flutter development practices with Firebase integration.

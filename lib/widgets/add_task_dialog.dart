@@ -17,6 +17,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   final _descriptionController = TextEditingController();
   final _firebaseService = FirebaseService();
   bool _isLoading = false;
+  bool _isHighPriority = false;
 
   @override
   void initState() {
@@ -24,6 +25,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     if (widget.task != null) {
       _titleController.text = widget.task!.title;
       _descriptionController.text = widget.task!.description;
+      _isHighPriority = widget.task!.isHighPriority;
     }
   }
 
@@ -109,26 +111,89 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
               ),
               const SizedBox(height: 16),
               
-              // Description field
-              TextFormField(
-                controller: _descriptionController,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  labelText: 'Description (Optional)',
-                  hintText: 'Enter task description',
-                  prefixIcon: const Icon(Icons.description),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0xFF6750A4),
-                      width: 2,
-                    ),
-                  ),
-                ),
-              ),
+                             // Description field
+               TextFormField(
+                 controller: _descriptionController,
+                 maxLines: 3,
+                 decoration: InputDecoration(
+                   labelText: 'Description (Optional)',
+                   hintText: 'Enter task description',
+                   prefixIcon: const Icon(Icons.description),
+                   border: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(12),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(12),
+                     borderSide: const BorderSide(
+                       color: Color(0xFF6750A4),
+                       width: 2,
+                     ),
+                   ),
+                 ),
+               ),
+               const SizedBox(height: 16),
+               
+               // Priority checkbox
+               Container(
+                 padding: const EdgeInsets.all(12),
+                 decoration: BoxDecoration(
+                   border: Border.all(
+                     color: const Color(0xFF6750A4).withOpacity(0.3),
+                   ),
+                   borderRadius: BorderRadius.circular(12),
+                 ),
+                 child: Row(
+                   children: [
+                     Checkbox(
+                       value: _isHighPriority,
+                       onChanged: (value) {
+                         setState(() {
+                           _isHighPriority = value ?? false;
+                         });
+                       },
+                       activeColor: const Color(0xFF6750A4),
+                     ),
+                     const SizedBox(width: 8),
+                     Expanded(
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Row(
+                             children: [
+                               Icon(
+                                 Icons.priority_high,
+                                 color: _isHighPriority ? Colors.red : Colors.grey,
+                                 size: 20,
+                               ),
+                               const SizedBox(width: 8),
+                               Text(
+                                 'High Priority',
+                                 style: TextStyle(
+                                   fontSize: 16,
+                                   fontWeight: FontWeight.w600,
+                                   color: _isHighPriority 
+                                       ? Colors.red 
+                                       : Colors.grey[600],
+                                 ),
+                               ),
+                             ],
+                           ),
+                           if (_isHighPriority) ...[
+                             const SizedBox(height: 4),
+                             Text(
+                               'This task will be marked as high priority',
+                               style: TextStyle(
+                                 fontSize: 12,
+                                 color: Colors.grey[600],
+                               ),
+                             ),
+                           ],
+                         ],
+                       ),
+                     ),
+                   ],
+                 ),
+               ),
               const SizedBox(height: 24),
               
               // Action buttons
@@ -205,6 +270,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
         final updatedTask = widget.task!.copyWith(
           title: title,
           description: description,
+          isHighPriority: _isHighPriority,
         );
         await _firebaseService.updateTask(updatedTask);
       } else {
@@ -213,6 +279,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
           id: '',
           title: title,
           description: description,
+          isHighPriority: _isHighPriority,
           createdAt: DateTime.now(),
         );
         await _firebaseService.addTask(newTask);

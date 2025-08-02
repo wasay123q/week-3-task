@@ -5,6 +5,7 @@ class Task {
   final String title;
   final String description;
   final bool isCompleted;
+  final bool isHighPriority;
   final DateTime createdAt;
   final DateTime? completedAt;
 
@@ -13,6 +14,7 @@ class Task {
     required this.title,
     required this.description,
     this.isCompleted = false,
+    this.isHighPriority = false,
     required this.createdAt,
     this.completedAt,
   });
@@ -22,6 +24,7 @@ class Task {
       'title': title,
       'description': description,
       'isCompleted': isCompleted,
+      'isHighPriority': isHighPriority,
       'createdAt': Timestamp.fromDate(createdAt),
       'completedAt': completedAt != null ? Timestamp.fromDate(completedAt!) : null,
     };
@@ -33,6 +36,7 @@ class Task {
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
+      isHighPriority: map['isHighPriority'] ?? false,
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       completedAt: map['completedAt'] != null 
           ? (map['completedAt'] as Timestamp).toDate() 
@@ -45,6 +49,7 @@ class Task {
     String? title,
     String? description,
     bool? isCompleted,
+    bool? isHighPriority,
     DateTime? createdAt,
     DateTime? completedAt,
   }) {
@@ -53,6 +58,7 @@ class Task {
       title: title ?? this.title,
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
+      isHighPriority: isHighPriority ?? this.isHighPriority,
       createdAt: createdAt ?? this.createdAt,
       completedAt: completedAt ?? this.completedAt,
     );

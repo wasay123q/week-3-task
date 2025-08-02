@@ -154,21 +154,45 @@ class TaskCard extends StatelessWidget {
                   ],
                 ),
               ),
-                             // Edit icon
-               GestureDetector(
-                 onTap: onTap,
-                 child: Container(
-                   padding: const EdgeInsets.all(8),
-                   decoration: BoxDecoration(
-                     shape: BoxShape.circle,
-                     color: Colors.white.withOpacity(0.2),
+                             // Priority indicator and Edit icon
+               Row(
+                 mainAxisSize: MainAxisSize.min,
+                 children: [
+                   // Priority dot
+                   if (task.isHighPriority)
+                     Container(
+                       width: 8,
+                       height: 8,
+                       margin: const EdgeInsets.only(right: 8),
+                       decoration: BoxDecoration(
+                         shape: BoxShape.circle,
+                         color: Colors.red,
+                         boxShadow: [
+                           BoxShadow(
+                             color: Colors.red.withOpacity(0.3),
+                             blurRadius: 4,
+                             spreadRadius: 1,
+                           ),
+                         ],
+                       ),
+                     ),
+                   // Edit icon
+                   GestureDetector(
+                     onTap: onTap,
+                     child: Container(
+                       padding: const EdgeInsets.all(8),
+                       decoration: BoxDecoration(
+                         shape: BoxShape.circle,
+                         color: Colors.white.withOpacity(0.2),
+                       ),
+                       child: Icon(
+                         Icons.edit,
+                         size: 16,
+                         color: Colors.white,
+                       ),
+                     ),
                    ),
-                   child: Icon(
-                     Icons.edit,
-                     size: 16,
-                     color: Colors.white,
-                   ),
-                 ),
+                 ],
                ),
             ],
           ),
