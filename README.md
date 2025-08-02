@@ -17,9 +17,6 @@ A beautiful and functional task management application built with Flutter and Fi
 - 🎯 **Visual Priority Indicators** - Red dots for high priority tasks
 - 📊 **Task Statistics** - Easy filtering for different task states
 
-## Screenshots
-
-*Screenshots will be added after the app is running*
 
 ## Tech Stack
 
