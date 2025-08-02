@@ -12,9 +12,11 @@ class FirebaseService {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) {
+      final tasks = snapshot.docs.map((doc) {
         return Task.fromMap(doc.id, doc.data());
       }).toList();
+      print('Retrieved ${tasks.length} tasks from Firebase');
+      return tasks;
     });
   }
 
@@ -33,7 +35,33 @@ class FirebaseService {
 
   // Delete a task
   Future<void> deleteTask(String taskId) async {
-    await _firestore.collection(_collection).doc(taskId).delete();
+    try {
+      // First, verify the task exists
+      final docSnapshot = await _firestore.collection(_collection).doc(taskId).get();
+      if (!docSnapshot.exists) {
+        print('Task $taskId does not exist, skipping deletion');
+        return;
+      }
+      
+      print('Deleting task: $taskId');
+      await _firestore.collection(_collection).doc(taskId).delete().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw Exception('Delete operation timed out');
+        },
+      );
+      
+      // Verify deletion
+      final verifySnapshot = await _firestore.collection(_collection).doc(taskId).get();
+      if (verifySnapshot.exists) {
+        throw Exception('Task still exists after deletion');
+      }
+      
+      print('Task deleted successfully: $taskId');
+    } catch (e) {
+      print('Error deleting task $taskId: $e');
+      rethrow;
+    }
   }
 
   // Toggle task completion status
